@@ -1,3 +1,6 @@
 .git
 account-data
 docs
+.env*
+run
+web/
