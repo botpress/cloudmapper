@@ -78,7 +78,16 @@ def call_function(outputfile, handler, method_to_call, parameters, check, summar
         "parameters": parameters,
     }
 
-    print("  Making call for {}".format(outputfile), flush=True)
+    if call_summary["service"] == "lambda" and call_summary["action"] == "get_policy":
+        # We have too many lambdas (bots) at Botpress for this to be useful in the diagram, so we skip them.
+        #print("Skipping lambda.get_policy call for {}".format(outputfile))
+        return
+
+    print("  Making {}.{} call for {}".format(call_summary["service"], call_summary["action"], outputfile), flush=True)
+    
+    if(call_summary["service"] == "lambda"):
+        time.sleep(0.25) # Throttle to avoid hitting Lambda API limits on production: https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html
+
     try:
         for retries in range(MAX_RETRIES):
             if handler.can_paginate(method_to_call):

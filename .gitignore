@@ -1,5 +1,4 @@
 .vscode
-config.json
 config/
 .DS_Store
 *.pyc
@@ -22,3 +21,6 @@ auditor/.cdk.staging
 auditor/cdk.out
 auditor/.env
 auditor/resources/cloudmapper
+.env.production
+.env.staging
+.env
