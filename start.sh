@@ -1,6 +1,8 @@
 #!/bin/sh
 source .env
+
 docker build -t cloudmapper .
+
 docker run -it \
     -e ACCOUNT=$ACCOUNT \
     -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
