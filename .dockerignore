@@ -2,5 +2,5 @@
 account-data
 docs
 .env*
-start.sh
+run.sh
 web/

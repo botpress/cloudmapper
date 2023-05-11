@@ -1,10 +1,8 @@
 {
   "accounts": [
     { "id": "981662312449", "name": "cloud-production" },
-    { "id": "236194216641", "name": "cloud-staging" },
-    { "id": "986677156374", "name": "shared" },
     { "id": "208484391439", "name": "nlp-production" },
-    { "id": "207380143098", "name": "nlp-staging" }
+    { "id": "986677156374", "name": "shared" }
   ],
   "cidrs": {}
 }
