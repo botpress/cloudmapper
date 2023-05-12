@@ -3,14 +3,24 @@
 ## Usage
 
 1. Clone this repository.
-1. Copy the `.env.example` file and copy it to an `.env` file.
-1. Go to the CloudFormation console of the AWS account you want to generate a diagram for, locate the "CloudMapper" stack, go to "Outputs", and then copy the `AccessKeyId` and `SecretAccessKey` values to the corresponding variables in the `.env` file. This will allow CloudMapper to access (with restricted permissions) the AWS account to collect the data necessary to create the network diagram.
-   > These credentials are automatically created by the [`cloudmapper-stack.ts`](https://github.com/botpress/infra/blob/master/cloud/lib/cloudmapper-stack.ts) file in the [infra](https://github.com/botpress/infra/) repository.
-1. In the `.env` file, set the `ACCOUNT` variable to the name found in the `config.json` file. This file contains the list of account IDs and names that CloudMapper can use, and can always be modified to include other AWS accounts as well.
+1. Copy the `.env.example` file to an `.env` file.
+1. Go to the CloudFormation console of the AWS account you want to generate a diagram for, locate the "CloudMapper" stack, go to "Outputs", and copy the value for `CloudMapperRoleARN`.
+
+   This corresponds to the ARN of an AWS Role that will allow you to generate temporary, read-only credentials for CloudMapper to access the AWS account (with restricted permissions) to collect the data necessary to create the network diagram.
+
+   > _Note_: This role is created by the [`cloudmapper-stack.ts`](https://github.com/botpress/infra/blob/master/cloudmapper/bin/cloudmapper.ts) file in the [infra](https://github.com/botpress/infra/) repository.
+
+1. In the Terminal, start an AWS session with the `Administrator` role for the AWS account you want to generate the diagram for. You can try using [aws-vault](https://github.com/99designs/aws-vault) for this.
+1. Inside the AWS terminal session, run the following command, replacing the `{CloudMapperRoleARN}` value with the one you copied in step 3 above.
+   ```
+   aws sts assume-role --role-arn {CloudMapperRoleARN} --role-session-name cloudmapper
+   ```
+1. Copy the `AccessKeyId`, `SecretAccessKey`, and `SessionToken` values from the output of the command above to your clipboard, and paste them in the corresponding places of the `.env` file.
+1. Make sure the `ACCOUNT` variable in the `.env` file is set to the `name` value found in the `config.json` file that corresponds to the AWS account you're generating the diagram for. This file contains the list of account IDs and names that CloudMapper can use, and can always be modified to include other AWS accounts as well.
 1. Open the Terminal and run:
 
    ```
-   bash start.sh
+   bash run.sh
    ```
 
 1. Wait for the CloudMapper container to run and analyze the AWS account to generate the network diagram.
