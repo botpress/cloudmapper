@@ -4,3 +4,4 @@ docs
 .env*
 run.sh
 web/
+README.md
